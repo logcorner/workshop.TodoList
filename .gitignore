@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/**/bin/
+/src/**/obj/
+/src/.vs/TodoList
+/src/TodoList.Application/bin/Debug/net5.0
+/src/TodoList.Application/obj
+/src/TodoList.Application.UnitTests/bin

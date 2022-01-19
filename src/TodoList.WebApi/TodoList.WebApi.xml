@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TodoList.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.Get">
+            <summary>
+            Get list of all todoes
+            </summary>
+            <returns>List of todoes</returns>
+        </member>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.Get(TodoList.WebApi.Models.Todo.PaginationParameterDto)">
+            <summary>
+            Get List of paginated todo
+            </summary>
+            <param name="paginationParameter">Parameter of pagination</param>
+            <returns>Current page</returns>
+        </member>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.Get(System.Int32)">
+            <summary>
+            Get todo by identifier
+            </summary>
+            <param name="id">identifier</param>
+            <returns>todo</returns>
+        </member>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.AddToDo(TodoList.WebApi.Models.Todo.ToDoForCreationDto)">
+            <summary>
+            Create new todo
+            </summary>
+            <param name="dto">todo to create</param>
+            <returns>Status Code</returns>
+        </member>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.Update(TodoList.WebApi.Models.Todo.ToDoForUpdateDto)">
+            <summary>
+            Update todo
+            </summary>
+            <param name="input">todo to update</param>
+            <returns>Status Code</returns>
+        </member>
+        <member name="M:TodoList.WebApi.Controllers.TodoController.Delete(System.Int32)">
+            <summary>
+            Delete Todo
+            </summary>
+            <param name="id">The Identifier</param>
+            <returns>Status Code</returns>
+        </member>
+        <member name="T:TodoList.WebApi.Models.Todo.ToDoForCreationDto">
+            <summary>
+            Model for  new todo creation
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForCreationDto.Title">
+            <summary>
+            The Title
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForCreationDto.Description">
+            <summary>
+            The Description
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForCreationDto.ImageUrl">
+            <summary>
+            The image url
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForUpdateDto.Id">
+            <summary>
+            The Identifier
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForUpdateDto.Title">
+            <summary>
+            The Title
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForUpdateDto.Description">
+            <summary>
+            The Description
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoForUpdateDto.ImageUrl">
+            <summary>
+            The Image Url
+            </summary>
+        </member>
+        <member name="T:TodoList.WebApi.Models.Todo.ToDoInListDto">
+            <summary>
+            Model for Todo List
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.Id">
+            <summary>
+            The Identifier
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.Description">
+            <summary>
+            The Description
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.Title">
+            <summary>
+            The title
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.Status">
+            <summary>
+            The Status
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.ImageUrl">
+            <summary>
+            The ImageUrl
+            </summary>
+        </member>
+        <member name="P:TodoList.WebApi.Models.Todo.ToDoInListDto.Tasks">
+            <summary>
+            The list of Tasks
+            </summary>
+        </member>
+    </members>
+</doc>
