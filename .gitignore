@@ -9,3 +9,6 @@
 /src/TodoList.Application/bin/Debug/net5.0
 /src/TodoList.Application/obj
 /src/TodoList.Application.UnitTests/bin
+/src/TodoList.Database/Import Schema Logs
+/src/TodoList.Database/TodoList.Database.jfm
+/src/TodoList.Database/TodoList.Database.dbmdl
