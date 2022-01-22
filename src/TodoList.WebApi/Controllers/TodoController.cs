@@ -12,7 +12,7 @@ using TodoList.WebApi.Models.Todo;
 namespace TodoList.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/v:1.0/todos")]
+    [Route("api/todos")]
     public class TodoController : ControllerBase
     {
         private ITodoUseCase TodoUseCase { get; }

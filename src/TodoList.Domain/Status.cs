@@ -13,5 +13,15 @@
         public static Status InProgress = new Status(StatusEnum.InProgress);
         public static Status Removed = new Status(StatusEnum.Removed);
         public static Status New = new Status(StatusEnum.New);
+
+        public int GetIntValue()
+        {
+            return (int)_statusEnum;
+        }
+
+        public string GetStringValue()
+        {
+            return _statusEnum.ToString();
+        }
     }
 }

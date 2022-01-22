@@ -1,60 +1,91 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoList.Domain;
+using TodoList.Infrastructure.Model;
 using TodoList.SharedKernel.Repository;
 
 namespace TodoList.Infrastructure
 {
     public class TodoRepository : IRepository<Todo>
     {
-        private readonly List<Todo> _todos = new List<Todo>();
+        private WorkshopdbContext _workshopdbContext;
+
+        public TodoRepository(WorkshopdbContext workshopdbContext)
+        {
+            _workshopdbContext = workshopdbContext;
+        }
 
         public async Task<Todo> Get(object id)
         {
-            var result = _todos.FirstOrDefault(s => s.Id == (int)id);
-            return await Task.FromResult(result);
+            var result = _workshopdbContext.ToDo.Find(id);
+            if (result == null)
+            {
+                return null;
+            }
+            var todo = new TodoList.Domain.Todo
+                (result.Id, result.Title, result.Description, result.ImageUrl);
+
+            return await Task.FromResult(todo);
         }
 
         public async Task<IEnumerable<Todo>> Get()
         {
-            return await Task.FromResult(_todos);
+            var result = _workshopdbContext.ToDo.ToList();
+            var todoes = result.Select(r => new TodoList.Domain.Todo
+                (r.Id, r.Title, r.Description, r.ImageUrl));
+            return await Task.FromResult(todoes);
         }
 
         public async Task Create(Todo todo)
         {
-            // Increment identifier on database level
-            var id = _todos.Count == 0 ? 1 : _todos.Max(i => i.Id) + 1;
-            var item = new Todo(id, todo.Title, todo.Description, todo.ImageUrl);
-            _todos.Add(item);
-            await Task.CompletedTask;
+            var item = new ToDo
+            {
+                Title = todo.Title,
+                Description = todo.Description,
+                ImageUrl = todo.ImageUrl,
+                Status = todo.Status.GetIntValue()
+            };
+
+            _workshopdbContext.ToDo.Add(item);
+            await _workshopdbContext.SaveChangesAsync();
         }
 
         public async Task Update(Todo todo)
         {
-            //await _database.Update(todo);
+            var result = _workshopdbContext.ToDo.Find(todo.Id);
 
-            var result = _todos.FirstOrDefault(t => t.Id == todo.Id);
-            if (result != null)
+            if (result == null)
             {
-                result = todo;
+                throw new Exception($"todo with id = {todo.Id} ");
             }
-            await Task.FromResult(result);
+            result.Title = todo.Title;
+            result.Description = todo.Description;
+            result.Status = todo.Status.GetIntValue();
+            result.ImageUrl = todo.ImageUrl;
+
+            _workshopdbContext.Update(result);
+            await _workshopdbContext.SaveChangesAsync();
         }
 
         public async Task Delete(object id)
         {
-            var todo = _todos.FirstOrDefault(t => t.Id == (int)id);
-            if (todo != null)
+            var result = _workshopdbContext.ToDo.Find(id);
+            if (result == null)
             {
-                _todos.Remove(todo);
+                throw new Exception($"todo with id = {id} ");
             }
-            await Task.CompletedTask;
+            _workshopdbContext.Remove(result);
+
+            await _workshopdbContext.SaveChangesAsync();
         }
 
         public async Task<PaginationItems<Todo>> Get(PaginationParameter paginationParameter)
         {
-            var result = PaginationItems<Todo>.ToPagedList(_todos.AsQueryable().OrderBy(on => on.Id),
+            var todoes = _workshopdbContext.ToDo.Select(r => new TodoList.Domain.Todo
+                (r.Id, r.Title, r.Description, r.ImageUrl)).ToList();
+            var result = PaginationItems<Todo>.ToPagedList(todoes.AsQueryable().OrderBy(on => on.Id),
                 paginationParameter.PageNumber,
                 paginationParameter.PageSize);
 

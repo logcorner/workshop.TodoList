@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using Microsoft.OpenApi.Models;
+using TodoList.Infrastructure.Model;
 using TodoList.WebApi.Exceptions;
 
 namespace TodoList.WebApi
@@ -19,24 +19,21 @@ namespace TodoList.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(Log.Logger);
-            services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsights:InstrumentationKey"]);
+            services.AddDbContext<WorkshopdbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //  services.AddSingleton<IDatabase<Todo>, Database>();
 
             services.AddToDoServices();
 
-            services.AddCustomApiVersioning();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sage.Workshop.WebApi", Version = "v1" });
+            });
 
             services.AddControllers(x =>
             {
-                x.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
-                x.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                x.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
-                x.Filters.Add(new ProducesDefaultResponseTypeAttribute());
             });
-
-            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -46,12 +43,11 @@ namespace TodoList.WebApi
             app.UseHttpsRedirection();
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseRouting();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sage.Workshop.WebApi v1"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
-                endpoints.MapHealthChecks("/healthcheck");
             });
         }
     }
