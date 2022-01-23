@@ -1,10 +1,8 @@
 Param(
-    [parameter(Mandatory=$false)]
-    [string]$subscriptionName="Microsoft Azure Sponsorship",
-    [parameter(Mandatory=$false)]
+   
+    [parameter(Mandatory=$true)]
     [string]$resourceGroupName="aksP4ResourceGroupLog",
-    [parameter(Mandatory=$false)]
-    [string]$resourceGroupLocaltion="West Europe",
+    
     [parameter(Mandatory=$false)]
     [string]$clusterName="aksClusterLog",
     [parameter(Mandatory=$false)]
