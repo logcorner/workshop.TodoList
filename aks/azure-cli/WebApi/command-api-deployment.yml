@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: todo-list-http-api-deployment
+  namespace: aks
+  labels:
+    version: 1.0.0
+    product: todo-list-http-api
+    environment: aks
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-list-http-api
+      env: aks
+  
+  template:
+    metadata:
+      labels:
+        app: todo-list-http-api
+        env: aks
+    spec:
+      containers:
+      - name: command-api-container
+        image: tfqdemotfquickstartacr.azurecr.io/todo-list-web-api:latest
+        imagePullPolicy: Always
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Kubernetes.AKS"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+          protocol: TCP
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
