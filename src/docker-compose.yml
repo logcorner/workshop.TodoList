@@ -14,7 +14,7 @@ services:
 
   # database service
   todolist.mssql-tools:
-    image: ${DOCKER_REGISTRY-}/todo-list--mssql-tools
+    image: ${DOCKER_REGISTRY-}/todo-list-mssql-tools
     build:
       context: TodoList.Database/Docker
       dockerfile: mssql-tools/Dockerfile

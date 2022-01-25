@@ -10,7 +10,7 @@ namespace TodoList.Infrastructure
 {
     public class TodoRepository : IRepository<Todo>
     {
-        private WorkshopdbContext _workshopdbContext;
+        private readonly WorkshopdbContext _workshopdbContext;
 
         public TodoRepository(WorkshopdbContext workshopdbContext)
         {
@@ -24,7 +24,7 @@ namespace TodoList.Infrastructure
             {
                 return null;
             }
-            var todo = new TodoList.Domain.Todo
+            var todo = new Todo
                 (result.Id, result.Title, result.Description, result.ImageUrl);
 
             return await Task.FromResult(todo);
@@ -33,7 +33,7 @@ namespace TodoList.Infrastructure
         public async Task<IEnumerable<Todo>> Get()
         {
             var result = _workshopdbContext.ToDo.ToList();
-            var todoes = result.Select(r => new TodoList.Domain.Todo
+            var todoes = result.Select(r => new Todo
                 (r.Id, r.Title, r.Description, r.ImageUrl));
             return await Task.FromResult(todoes);
         }
@@ -83,7 +83,7 @@ namespace TodoList.Infrastructure
 
         public async Task<PaginationItems<Todo>> Get(PaginationParameter paginationParameter)
         {
-            var todoes = _workshopdbContext.ToDo.Select(r => new TodoList.Domain.Todo
+            var todoes = _workshopdbContext.ToDo.Select(r => new Todo
                 (r.Id, r.Title, r.Description, r.ImageUrl)).ToList();
             var result = PaginationItems<Todo>.ToPagedList(todoes.AsQueryable().OrderBy(on => on.Id),
                 paginationParameter.PageNumber,

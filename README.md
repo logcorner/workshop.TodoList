@@ -1,0 +1,48 @@
+
+$acrname ='logcorneracrms365'
+$clusterName ='logcornerClusterMs365'
+$resourceGroupName  ='DAKAR-AZURE6MS-365-0122'
+
+# prepare and push images to azure container registry
+az login
+az account set --subscription YOUR_SUBSCRIPTION_ID
+az acr login --name $acrname
+docker tag logcornerhub/todo-list-mssql-tools  logcorneracrms365.azurecr.io/todo-list-mssql-tools
+docker push logcorneracrms365.azurecr.io/todo-list-mssql-tools
+
+docker tag logcornerhub/todo-list-web-api   logcorneracrms365.azurecr.io/todo-list-web-api
+docker push logcorneracrms365.azurecr.io/todo-list-web-api
+
+
+# prepare and deploy to aks
+
+az aks get-credentials --resource-group $resourceGroupName --name $clusterName
+
+C:\Users\tocan\.kube\config
+
+az aks browse --resource-group=$resourceGroupName --name=$clusterName
+
+# kubernetes dashboad
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended.yaml
+kubectl proxy
+
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
+
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+
+
+
+kubectl config get-contexts 
+kubectl config use-context  $clusterName 
+
+kubectl create namespace aks
+
+kubectl apply -f . -f Database  -f WebApi
+kubectl rollout restart deployment speech-command-http-api-deployment -n aks
+
+
+kubectl get pods -n aks
+
+# enable managed identity on azure container registry
+kubectl create secret docker-registry registrysecret --docker-server=logcorneracrms365.azurecr.io --docker-username=logcorneracrms365 --docker-password=iCe0+CoVrCyUTAClZE5gWKjYpAQV5jg3 --docker-email=testaks@yahoo.fr -n aks
+# add acrpull role to aks

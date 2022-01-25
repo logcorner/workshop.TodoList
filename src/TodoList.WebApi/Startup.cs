@@ -22,8 +22,6 @@ namespace TodoList.WebApi
             services.AddDbContext<WorkshopdbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //  services.AddSingleton<IDatabase<Todo>, Database>();
-
             services.AddToDoServices();
 
             services.AddSwaggerGen(c =>
@@ -31,9 +29,7 @@ namespace TodoList.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sage.Workshop.WebApi", Version = "v1" });
             });
 
-            services.AddControllers(x =>
-            {
-            });
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app)

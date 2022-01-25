@@ -18,7 +18,7 @@ az group create `
 
 # Provisioning AKS cluster 
 Write-Host "Provisioning AKS cluster with default parameters" -ForegroundColor Cyan
-& ((Split-Path $MyInvocation.InvocationName) + "\createClusterAKS.ps1") -resourceGroupName   $resourceGroupName -clusterName   $clusterName
+& ((Split-Path $MyInvocation.InvocationName) + "\createAzureKubernetesService.ps1") -resourceGroupName   $resourceGroupName -clusterName   $clusterName
 
 
 # Provisioning AKS cluster 
