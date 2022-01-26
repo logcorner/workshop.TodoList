@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-list-http-api-service
+  namespace: aks
+  labels:
+    version: 1.0.0
+    product: todo-list-http-api
+    environment: aks
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: todo-list-http-api
+    env: aks
