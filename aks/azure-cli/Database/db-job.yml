@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: sqljobcontainer
-        image: logcorneracrms365.azurecr.io/todo-list-mssql-tools:latest
+        image: aksacrkhhdlog.azurecr.io/todo-list-mssql-tools:latest
         imagePullPolicy: IfNotPresent
         command: ["/opt/mssql-tools/bin/sqlcmd"]
         args: [ "-S", "todo-list-db-service", "-d", "master", "-U", "sa", "-P", "MyC0m9l&xP@ssw0rd", "-I", "-i", "TodoList.Database_Create.sql" ]

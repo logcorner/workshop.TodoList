@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: todo-list-http-api-container
-        image: logcorneracrms365.azurecr.io/todo-list-web-api:latest
+        image: aksacrkhhdlog.azurecr.io/todo-list-web-api:latest
         imagePullPolicy: Always
         env:
         - name: ASPNETCORE_ENVIRONMENT
