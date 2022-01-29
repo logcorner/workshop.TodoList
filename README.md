@@ -1,7 +1,18 @@
+# install azure cli
+https://docs.microsoft.com/fr-fr/cli/azure/install-azure-cli-windows?tabs=azure-cli
 
-$acrname ='logcorneracrms365'
-$clusterName ='logcornerClusterMs365'
-$resourceGroupName  ='DAKAR-AZURE6MS-365-0122'
+az --version
+azure-cli                         2.31.0 *
+
+# Installer et configurer kubectl
+
+https://kubernetes.io/fr/docs/tasks/tools/install-kubectl/
+https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
+
+kubectl version --client
+
+# build and tag images 
+docker-compoe build 
 
 # prepare and push images to azure container registry
 az login
@@ -12,7 +23,6 @@ docker push logcorneracrms365.azurecr.io/todo-list-mssql-tools
 
 docker tag logcornerhub/todo-list-web-api   logcorneracrms365.azurecr.io/todo-list-web-api
 docker push logcorneracrms365.azurecr.io/todo-list-web-api
-
 
 # prepare and deploy to aks
 
@@ -29,11 +39,6 @@ kubectl proxy
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login
 
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
-
-
-
-kubectl config get-contexts 
-kubectl config use-context  $clusterName 
 
 kubectl create namespace aks
 
